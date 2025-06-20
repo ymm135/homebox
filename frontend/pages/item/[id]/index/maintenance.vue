@@ -44,19 +44,19 @@
     return [
       {
         id: "count",
-        title: "Total Entries",
+        title: "总条目数",
         value: count.value || 0,
         type: "number" as StatsFormat,
       },
       {
         id: "total",
-        title: "Total Cost",
+        title: "总费用",
         value: log.value.costTotal || 0,
         type: "currency" as StatsFormat,
       },
       {
         id: "average",
-        title: "Monthly Average",
+        title: "月平均费用",
         value: log.value.costAverage || 0,
         type: "currency" as StatsFormat,
       },
@@ -116,7 +116,7 @@
     });
 
     if (error) {
-      toast.error("Failed to create entry");
+      toast.error("创建条目失败");
       return;
     }
 
@@ -129,7 +129,7 @@
   const confirm = useConfirm();
 
   async function deleteEntry(id: string) {
-    const result = await confirm.open("Are you sure you want to delete this entry?");
+    const result = await confirm.open("您确定要删除此条目吗？");
     if (result.isCanceled) {
       return;
     }
@@ -137,7 +137,7 @@
     const { error } = await api.items.maintenance.delete(props.item.id, id);
 
     if (error) {
-      toast.error("Failed to delete entry");
+      toast.error("删除条目失败");
       return;
     }
     refreshLog();
@@ -167,7 +167,7 @@
     });
 
     if (error) {
-      toast.error("Failed to update entry");
+      toast.error("更新条目失败");
       return;
     }
 
@@ -180,20 +180,20 @@
   <div v-if="log">
     <BaseModal v-model="entry.modal">
       <template #title>
-        {{ entry.id ? "Edit Entry" : "New Entry" }}
+        {{ entry.id ? "编辑条目" : "新建条目" }}
       </template>
       <form @submit.prevent="dispatchFormSubmit">
-        <FormTextField v-model="entry.name" autofocus label="Entry Name" />
-        <DatePicker v-model="entry.completedDate" label="Completed Date" />
-        <DatePicker v-model="entry.scheduledDate" label="Scheduled Date" />
-        <FormTextArea v-model="entry.description" label="Notes" />
-        <FormTextField v-model="entry.cost" autofocus label="Cost" />
+        <FormTextField v-model="entry.name" autofocus label="条目名称" />
+        <DatePicker v-model="entry.completedDate" label="完成日期" />
+        <DatePicker v-model="entry.scheduledDate" label="计划日期" />
+        <FormTextArea v-model="entry.description" label="备注" />
+        <FormTextField v-model="entry.cost" autofocus label="费用" />
         <div class="py-2 flex justify-end">
           <BaseButton type="submit" class="ml-2 mt-2">
             <template #icon>
               <MdiPost />
             </template>
-            {{ entry.id ? "Update" : "Create" }}
+            {{ entry.id ? "更新" : "创建" }}
           </BaseButton>
         </div>
       </form>
@@ -213,17 +213,17 @@
       <div class="flex">
         <div class="btn-group">
           <button class="btn btn-sm" :class="`${scheduled ? 'btn-active' : ''}`" @click="scheduled = true">
-            Scheduled
+            计划中
           </button>
           <button class="btn btn-sm" :class="`${scheduled ? '' : 'btn-active'}`" @click="scheduled = false">
-            Completed
+            已完成
           </button>
         </div>
         <BaseButton class="ml-auto" size="sm" @click="newEntry()">
           <template #icon>
             <MdiPlus />
           </template>
-          New
+          新建
         </BaseButton>
       </div>
       <div class="container space-y-6">
@@ -242,7 +242,7 @@
                   <MdiCalendar class="mr-2" />
                   <DateTime :date="e.scheduledDate" format="human" datetime-type="date" />
                 </div>
-                <div class="tooltip tooltip-primary" data-tip="Cost">
+                <div class="tooltip tooltip-primary" data-tip="费用">
                   <div class="badge badge-primary p-3">
                     <Currency :amount="e.cost" />
                   </div>
@@ -258,13 +258,13 @@
               <template #icon>
                 <MdiEdit />
               </template>
-              Edit
+              编辑
             </BaseButton>
             <BaseButton size="sm" @click="deleteEntry(e.id)">
               <template #icon>
                 <MdiDelete />
               </template>
-              Delete
+              删除
             </BaseButton>
           </div>
         </BaseCard>
@@ -275,7 +275,7 @@
             @click="newEntry()"
           >
             <MdiWrenchClock class="h-16 w-16 inline" />
-            <span class="mt-2 block text-sm font-medium text-gray-900"> Create Your First Entry </span>
+            <span class="mt-2 block text-sm font-medium text-gray-900"> 创建您的第一个条目 </span>
           </button>
         </div>
       </div>

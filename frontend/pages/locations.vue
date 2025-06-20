@@ -7,7 +7,7 @@
   });
 
   useHead({
-    title: "Homebox | Items",
+    title: "Homebox | 位置",
   });
 
   const api = useUserApi();
@@ -62,12 +62,12 @@
 
 <template>
   <BaseContainer class="mb-16">
-    <BaseSectionHeader> Locations </BaseSectionHeader>
+    <BaseSectionHeader> 位置 </BaseSectionHeader>
     <BaseCard>
       <div class="p-4">
         <div class="flex justify-end mb-2">
           <div class="btn-group">
-            <button class="btn btn-sm tooltip tooltip-top" data-tip="Collapse Tree" @click="closeAll">
+            <button class="btn btn-sm tooltip tooltip-top" data-tip="折叠树" @click="closeAll">
               <MdiCollapseAllOutline />
             </button>
           </div>

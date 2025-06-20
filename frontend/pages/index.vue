@@ -10,7 +10,7 @@
   import MdiLock from "~icons/mdi/lock";
 
   useHead({
-    title: "Homebox | Organize and Tag Your Stuff",
+    title: "Homebox | 整理和标记您的物品",
   });
 
   definePageMeta({
@@ -85,11 +85,11 @@
     });
 
     if (error) {
-      toast.error("Problem registering user");
+      toast.error("注册用户时出现问题");
       return;
     }
 
-    toast.success("User registered");
+    toast.success("用户注册成功");
 
     loading.value = false;
     registerForm.value = false;
@@ -109,12 +109,12 @@
     const { error } = await ctx.login(api, email.value, loginPassword.value, remember.value);
 
     if (error) {
-      toast.error("Invalid email or password");
+      toast.error("邮箱或密码无效");
       loading.value = false;
       return;
     }
 
-    toast.success("Logged in successfully");
+    toast.success("登录成功");
 
     navigateTo("/home");
     loading.value = false;
@@ -147,19 +147,19 @@
             <AppLogo class="w-12 -mb-4" />
             x
           </h2>
-          <p class="ml-1 text-lg text-base-content/50">Track, Organize, and Manage your Things.</p>
+          <p class="ml-1 text-lg text-base-content/50">跟踪、整理和管理您的物品。</p>
         </div>
         <div class="flex mt-6 sm:mt-0 gap-4 ml-auto text-neutral-content">
-          <a class="tooltip" data-tip="Project Github" href="https://github.com/hay-kot/homebox" target="_blank">
+          <a class="tooltip" data-tip="项目 Github" href="https://github.com/hay-kot/homebox" target="_blank">
             <MdiGithub class="h-8 w-8" />
           </a>
-          <a href="https://twitter.com/haybytes" class="tooltip" data-tip="Follow The Developer" target="_blank">
+          <a href="https://twitter.com/haybytes" class="tooltip" data-tip="关注开发者" target="_blank">
             <MdiTwitter class="h-8 w-8" />
           </a>
-          <a href="https://discord.gg/tuncmNrE4z" class="tooltip" data-tip="Join The Discord" target="_blank">
+          <a href="https://discord.gg/tuncmNrE4z" class="tooltip" data-tip="加入 Discord" target="_blank">
             <MdiDiscord class="h-8 w-8" />
           </a>
-          <a href="https://hay-kot.github.io/homebox/" class="tooltip" data-tip="Read The Docs" target="_blank">
+          <a href="https://hay-kot.github.io/homebox/" class="tooltip" data-tip="阅读文档" target="_blank">
             <MdiFolder class="h-8 w-8" />
           </a>
         </div>
@@ -172,17 +172,17 @@
                 <div class="card-body">
                   <h2 class="card-title text-2xl align-center">
                     <MdiAccount class="mr-1 w-7 h-7" />
-                    Register
+                    注册
                   </h2>
-                  <FormTextField v-model="email" label="Set your email?" />
-                  <FormTextField v-model="username" label="What's your name?" />
+                  <FormTextField v-model="email" label="设置您的邮箱？" />
+                  <FormTextField v-model="username" label="您的姓名是什么？" />
                   <div v-if="!(groupToken == '')" class="pt-4 pb-1 text-center">
-                    <p>You're Joining an Existing Group!</p>
+                    <p>您正在加入一个现有群组！</p>
                     <button type="button" class="text-xs underline" @click="groupToken = ''">
-                      Don't Want To Join a Group?
+                      不想加入群组？
                     </button>
                   </div>
-                  <FormPassword v-model="password" label="Set your password" />
+                  <FormPassword v-model="password" label="设置您的密码" />
                   <PasswordScore v-model:valid="canRegister" :password="password" />
                   <div class="card-actions justify-end">
                     <button
@@ -191,7 +191,7 @@
                       :class="loading ? 'loading' : ''"
                       :disabled="loading || !canRegister"
                     >
-                      Register
+                      注册
                     </button>
                   </div>
                 </div>
@@ -202,17 +202,17 @@
                 <div class="card-body">
                   <h2 class="card-title text-2xl align-center">
                     <MdiAccount class="mr-1 w-7 h-7" />
-                    Login
+                    登录
                   </h2>
                   <template v-if="status && status.demo">
-                    <p class="text-xs italic text-center">This is a demo instance</p>
-                    <p class="text-xs text-center"><b>Email</b> demo@example.com</p>
-                    <p class="text-xs text-center"><b>Password</b> demo</p>
+                    <p class="text-xs italic text-center">这是一个演示实例</p>
+                    <p class="text-xs text-center"><b>邮箱</b> demo@example.com</p>
+                    <p class="text-xs text-center"><b>密码</b> demo</p>
                   </template>
-                  <FormTextField v-model="email" label="Email" />
-                  <FormPassword v-model="loginPassword" label="Password" />
+                  <FormTextField v-model="email" label="邮箱" />
+                  <FormPassword v-model="loginPassword" label="密码" />
                   <div class="max-w-[140px]">
-                    <FormCheckbox v-model="remember" label="Remember Me" />
+                    <FormCheckbox v-model="remember" label="记住我" />
                   </div>
                   <div class="card-actions justify-end">
                     <button
@@ -221,7 +221,7 @@
                       :class="loading ? 'loading' : ''"
                       :disabled="loading"
                     >
-                      Login
+                      登录
                     </button>
                   </div>
                 </div>
@@ -239,11 +239,11 @@
                 <MdiLogin v-else class="w-5 h-5 swap-off" />
                 <MdiArrowRight class="w-5 h-5 swap-on" />
               </template>
-              {{ registerForm ? "Login" : "Register" }}
+              {{ registerForm ? "登录" : "注册" }}
             </BaseButton>
             <p v-else class="text-base-content italic text-sm inline-flex items-center gap-2">
               <MdiLock class="w-4 h-4 inline-block" />
-              Registration Disabled
+              注册已禁用
             </p>
           </div>
         </div>

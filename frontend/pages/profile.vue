@@ -13,7 +13,7 @@
     middleware: ["auth"],
   });
   useHead({
-    title: "Homebox | Profile",
+    title: "Homebox | 个人资料",
   });
 
   const api = useUserApi();
@@ -23,7 +23,7 @@
   const currencies = computedAsync(async () => {
     const resp = await api.group.currencies();
     if (resp.error) {
-      notify.error("Failed to get currencies");
+      notify.error("获取货币失败");
       return [];
     }
 
@@ -81,12 +81,12 @@
     });
 
     if (error) {
-      notify.error("Failed to update group");
+      notify.error("更新群组失败");
       return;
     }
 
     group.value = data;
-    notify.success("Group updated");
+    notify.success("群组更新成功");
   }
 
   const pubApi = usePublicApi();
@@ -104,19 +104,19 @@
     console.log(auth.user);
     return [
       {
-        name: "Name",
-        text: auth.user?.name || "Unknown",
+        name: "姓名",
+        text: auth.user?.name || "未知",
       },
       {
-        name: "Email",
-        text: auth.user?.email || "Unknown",
+        name: "邮箱",
+        text: auth.user?.email || "未知",
       },
     ] as Detail[];
   });
 
   async function deleteProfile() {
     const result = await confirm.open(
-      "Are you sure you want to delete your account? If you are the last member in your group all your data will be deleted. This action cannot be undone."
+      "您确定要删除您的账户吗？如果您是群组中的最后一个成员，您的所有数据将被删除。此操作无法撤销。"
     );
 
     if (result.isCanceled) {
@@ -126,12 +126,12 @@
     const { response } = await api.user.delete();
 
     if (response?.status === 204) {
-      notify.success("Your account has been deleted.");
+      notify.success("您的账户已被删除。");
       auth.logout(api);
       navigateTo("/");
     }
 
-    notify.error("Failed to delete your account.");
+    notify.error("删除账户失败。");
   }
 
   const token = ref("");
@@ -177,12 +177,12 @@
     const { error } = await api.user.changePassword(passwordChange.current, passwordChange.new);
 
     if (error) {
-      notify.error("Failed to change password.");
+      notify.error("更改密码失败。");
       passwordChange.loading = false;
       return;
     }
 
-    notify.success("Password changed successfully.");
+    notify.success("密码更改成功。");
     passwordChange.dialog = false;
     passwordChange.new = "";
     passwordChange.current = "";
@@ -305,11 +305,11 @@
 <template>
   <div>
     <BaseModal v-model="passwordChange.dialog">
-      <template #title> Change Password </template>
+      <template #title> 更改密码 </template>
 
       <form @submit.prevent="changePassword">
-        <FormPassword v-model="passwordChange.current" label="Current Password" placeholder="" />
-        <FormPassword v-model="passwordChange.new" label="New Password" placeholder="" />
+        <FormPassword v-model="passwordChange.current" label="当前密码" placeholder="" />
+        <FormPassword v-model="passwordChange.new" label="新密码" placeholder="" />
         <PasswordScore v-model:valid="passwordChange.isValid" :password="passwordChange.new" />
 
         <div class="flex">
@@ -319,26 +319,26 @@
             :disabled="!passwordChange.isValid"
             type="submit"
           >
-            Submit
+            提交
           </BaseButton>
         </div>
       </form>
     </BaseModal>
 
     <BaseModal v-model="notifierDialog">
-      <template #title> {{ notifier ? "Edit" : "Create" }} Notifier </template>
+      <template #title> {{ notifier ? "编辑" : "创建" }} 通知器 </template>
 
       <form @submit.prevent="createNotifier">
         <template v-if="notifier">
-          <FormTextField v-model="notifier.name" label="Name" />
+          <FormTextField v-model="notifier.name" label="名称" />
           <FormTextField v-model="notifier.url" label="URL" />
           <div class="max-w-[100px]">
-            <FormCheckbox v-model="notifier.isActive" label="Enabled" />
+            <FormCheckbox v-model="notifier.isActive" label="启用" />
           </div>
         </template>
         <div class="flex gap-2 justify-between mt-4">
-          <BaseButton :disabled="!(notifier && notifier.url)" type="button" @click="testNotifier"> Test </BaseButton>
-          <BaseButton type="submit"> Submit </BaseButton>
+          <BaseButton :disabled="!(notifier && notifier.url)" type="button" @click="testNotifier"> 测试 </BaseButton>
+          <BaseButton type="submit"> 提交 </BaseButton>
         </div>
       </form>
     </BaseModal>
@@ -348,8 +348,8 @@
         <template #title>
           <BaseSectionHeader>
             <MdiAccount class="mr-2 -mt-1 text-base-600" />
-            <span class="text-base-600"> User Profile </span>
-            <template #description> Invite users, and manage your account. </template>
+            <span class="text-base-600"> 用户资料 </span>
+            <template #description> 邀请用户并管理您的账户。 </template>
           </BaseSectionHeader>
         </template>
 
@@ -357,8 +357,8 @@
 
         <div class="p-4">
           <div class="flex gap-2">
-            <BaseButton size="sm" @click="openPassChange"> Change Password </BaseButton>
-            <BaseButton size="sm" @click="generateToken"> Generate Invite Link </BaseButton>
+            <BaseButton size="sm" @click="openPassChange"> 更改密码 </BaseButton>
+            <BaseButton size="sm" @click="generateToken"> 生成邀请链接 </BaseButton>
           </div>
           <div v-if="token" class="pt-4 flex items-center pl-1">
             <CopyText class="mr-2 btn-primary btn btn-outline btn-square btn-sm" :text="tokenUrl" />
@@ -375,8 +375,8 @@
         <template #title>
           <BaseSectionHeader>
             <MdiMegaphone class="mr-2 -mt-1 text-base-600" />
-            <span class="text-base-600"> Notifiers </span>
-            <template #description> Get notifications for up coming maintenance reminders </template>
+            <span class="text-base-600"> 通知器 </span>
+            <template #description> 获取即将到来的维护提醒通知 </template>
           </BaseSectionHeader>
         </template>
 
@@ -385,12 +385,12 @@
             <div class="flex flex-wrap items-center gap-2">
               <p class="mr-auto text-lg">{{ n.name }}</p>
               <div class="flex gap-2 justify-end">
-                <div class="tooltip" data-tip="Delete">
+                <div class="tooltip" data-tip="删除">
                   <button class="btn btn-sm btn-square" @click="deleteNotifier(n.id)">
                     <MdiDelete />
                   </button>
                 </div>
-                <div class="tooltip" data-tip="Edit">
+                <div class="tooltip" data-tip="编辑">
                   <button class="btn btn-sm btn-square" @click="openNotifierDialog(n)">
                     <MdiPencil />
                   </button>
@@ -399,11 +399,11 @@
             </div>
             <div class="flex justify-between py-1 flex-wrap text-sm">
               <p>
-                <span v-if="n.isActive" class="badge badge-success"> Active </span>
-                <span v-else class="badge badge-error"> Inactive</span>
+                <span v-if="n.isActive" class="badge badge-success"> 活跃 </span>
+                <span v-else class="badge badge-error"> 非活跃</span>
               </p>
               <p>
-                Created
+                创建于
                 <DateTime format="relative" datetime-type="time" :date="n.createdAt" />
               </p>
             </div>
@@ -411,7 +411,7 @@
         </div>
 
         <div class="p-4">
-          <BaseButton size="sm" @click="openNotifierDialog"> Create </BaseButton>
+          <BaseButton size="sm" @click="openNotifierDialog"> 创建 </BaseButton>
         </div>
       </BaseCard>
 
@@ -419,19 +419,19 @@
         <template #title>
           <BaseSectionHeader class="pb-0">
             <MdiAccountMultiple class="mr-2 -mt-1 text-base-600" />
-            <span class="text-base-600"> Group Settings </span>
+            <span class="text-base-600"> 群组设置 </span>
             <template #description>
-              Shared Group Settings. You may need to refresh your browser for some settings to apply.
+              共享群组设置。某些设置可能需要刷新浏览器才能生效。
             </template>
           </BaseSectionHeader>
         </template>
 
         <div v-if="group && currencies && currencies.length > 0" class="p-5 pt-0">
-          <FormSelect v-model="currency" label="Currency Format" :items="currencies" />
-          <p class="m-2 text-sm">Example: {{ currencyExample }}</p>
+          <FormSelect v-model="currency" label="货币格式" :items="currencies" />
+          <p class="m-2 text-sm">示例: {{ currencyExample }}</p>
 
           <div class="mt-4">
-            <BaseButton size="sm" @click="updateGroup"> Update Group </BaseButton>
+            <BaseButton size="sm" @click="updateGroup"> 更新群组 </BaseButton>
           </div>
         </div>
       </BaseCard>
@@ -440,10 +440,9 @@
         <template #title>
           <BaseSectionHeader>
             <MdiFill class="mr-2 text-base-600" />
-            <span class="text-base-600"> Theme Settings </span>
+            <span class="text-base-600"> 主题设置 </span>
             <template #description>
-              Theme settings are stored in your browser's local storage. You can change the theme at any time. If you're
-              having trouble setting your theme try refreshing your browser.
+              主题设置存储在您浏览器的本地存储中。您可以随时更改主题。如果您在设置主题时遇到问题，请尝试刷新浏览器。
             </template>
           </BaseSectionHeader>
         </template>
@@ -491,12 +490,12 @@
         <template #title>
           <BaseSectionHeader>
             <MdiDelete class="mr-2 -mt-1 text-base-600" />
-            <span class="text-base-600"> Delete Account</span>
-            <template #description> Delete your account and all its associated data. </template>
+            <span class="text-base-600"> 删除账户</span>
+            <template #description> 删除您的账户及其所有相关数据。 </template>
           </BaseSectionHeader>
         </template>
         <div class="p-4 px-6 border-t-2 border-gray-300">
-          <BaseButton size="sm" class="btn-error" @click="deleteProfile"> Delete Account </BaseButton>
+          <BaseButton size="sm" class="btn-error" @click="deleteProfile"> 删除账户 </BaseButton>
         </div>
       </BaseCard>
     </BaseContainer>

@@ -6,7 +6,7 @@
     layout: false,
   });
   useHead({
-    title: "Homebox | Printer",
+    title: "Homebox | 打印机",
   });
 
   const bordered = ref(false);
@@ -68,7 +68,7 @@
     const availablePageHeight = page.height - page.pageTopPadding - page.pageBottomPadding;
 
     if (availablePageWidth < cardWidth || availablePageHeight < cardHeight) {
-      notifier.error("Page size is too small for the card size");
+      notifier.error("页面尺寸对于卡片尺寸来说太小了");
       return out.value;
     }
 
@@ -106,47 +106,47 @@
   const propertyInputs = computed<InputDef[]>(() => {
     return [
       {
-        label: "Asset Start",
+        label: "资产开始",
         ref: "assetRange",
       },
       {
-        label: "Asset End",
+        label: "资产结束",
         ref: "assetRangeMax",
       },
       {
-        label: "Label Height",
+        label: "标签高度",
         ref: "cardHeight",
       },
       {
-        label: "Label Width",
+        label: "标签宽度",
         ref: "cardWidth",
       },
       {
-        label: "Page Width",
+        label: "页面宽度",
         ref: "pageWidth",
       },
       {
-        label: "Page Height",
+        label: "页面高度",
         ref: "pageHeight",
       },
       {
-        label: "Page Top Padding",
+        label: "页面顶部边距",
         ref: "pageTopPadding",
       },
       {
-        label: "Page Bottom Padding",
+        label: "页面底部边距",
         ref: "pageBottomPadding",
       },
       {
-        label: "Page Left Padding",
+        label: "页面左边距",
         ref: "pageLeftPadding",
       },
       {
-        label: "Page Right Padding",
+        label: "页面右边距",
         ref: "pageRightPadding",
       },
       {
-        label: "Base URL",
+        label: "基础URL",
         ref: "baseURL",
         type: "text",
       },
@@ -297,44 +297,41 @@
   <div class="print:hidden">
     <AppToast />
     <div class="container max-w-4xl mx-auto p-4 pt-6 prose">
-      <h1>Homebox Label Generator</h1>
+      <h1>Homebox 标签生成器</h1>
       <p>
-        The Homebox Label Generator is a tool to help you print labels for your Homebox inventory. These are intended to
-        be print-ahead labels so you can print many labels and have them ready to apply
+        Homebox 标签生成器是一个帮助您为 Homebox 库存打印标签的工具。这些标签旨在提前打印，这样您就可以打印许多标签并准备好应用
       </p>
       <p>
-        As such, these labels work by printing a URL QR Code and AssetID information on a label. If you've disabled
-        AssetID's in your Homebox settings, you can still use this tool, but the AssetID's won't reference any item
+        因此，这些标签通过在标签上打印 URL 二维码和资产ID信息来工作。如果您在 Homebox 设置中禁用了资产ID，您仍然可以使用此工具，但资产ID不会引用任何物品
       </p>
       <p>
-        This feature is in early development stages and may change in future releases, if you have feedback please
-        provide it in the <a href="https://github.com/hay-kot/homebox/discussions/273">GitHub Discussion</a>
+        此功能处于早期开发阶段，可能会在未来版本中发生变化，如果您有反馈，请在 <a href="https://github.com/hay-kot/homebox/discussions/273">GitHub 讨论</a> 中提供
       </p>
-      <h2>Tips</h2>
+      <h2>提示</h2>
       <ul>
         <li>
-          The defaults here are setup for the
-          <a href="https://www.avery.com/templates/5260">Avery 5260 label sheets</a>. If you're using a different sheet,
-          you'll need to adjust the settings to match your sheet.
+          这里的默认设置是为
+          <a href="https://www.avery.com/templates/5260">Avery 5260 标签纸</a>设置的。如果您使用不同的标签纸，
+          您需要调整设置以匹配您的标签纸。
         </li>
         <li>
-          If you're customizing your sheet the dimensions are in inches. When building the 5260 sheet, I found that the
-          dimensions used in their template, did not match what was needed to print within the boxes.
-          <b>Be prepared for some trial and error</b>
+          如果您要自定义标签纸，尺寸以英寸为单位。在构建 5260 标签纸时，我发现
+          他们模板中使用的尺寸与在框内打印所需的尺寸不匹配。
+          <b>请准备好进行一些试验和错误</b>
         </li>
         <li>
-          When printing be sure to:
+          打印时请确保：
           <ol>
-            <li>Set the margins to 0 or None</li>
-            <li>Set the scaling to 100%</li>
-            <li>Disable double-sided printing</li>
-            <li>Print a test page before printing multiple pages</li>
+            <li>将边距设置为 0 或无</li>
+            <li>将缩放设置为 100%</li>
+            <li>禁用双面打印</li>
+            <li>在打印多页之前先打印测试页</li>
           </ol>
         </li>
       </ul>
       <div class="flex gap-2 flex-wrap">
-        <NuxtLink href="/tools">Tools</NuxtLink>
-        <NuxtLink href="/home">Home</NuxtLink>
+        <NuxtLink href="/tools">工具</NuxtLink>
+        <NuxtLink href="/home">首页</NuxtLink>
       </div>
     </div>
     <div class="divider max-w-4xl mx-auto"></div>
@@ -357,14 +354,14 @@
         <div class="form-control">
           <label class="cursor-pointer label">
             <input v-model="bordered" type="checkbox" class="checkbox checkbox-secondary" />
-            <span class="label-text">Bordered Labels</span>
+            <span class="label-text">带边框标签</span>
           </label>
         </div>
       </div>
 
       <div>
-        <p>QR Code Example {{ displayProperties.baseURL }}/a/{asset_id}</p>
-        <BaseButton class="btn-block my-4" @click="calcPages"> Generate Page </BaseButton>
+        <p>二维码示例 {{ displayProperties.baseURL }}/a/{asset_id}</p>
+        <BaseButton class="btn-block my-4" @click="calcPages"> 生成页面 </BaseButton>
       </div>
     </div>
   </div>

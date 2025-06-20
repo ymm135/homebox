@@ -33,7 +33,7 @@
   } = useAsyncData(async () => {
     const { data, error } = await api.items.get(itemId.value);
     if (error) {
-      toast.error("Failed to load item");
+      toast.error("加载物品失败");
       navigateTo("/home");
       return;
     }
@@ -61,7 +61,7 @@
 
   async function saveItem() {
     if (!item.value.location?.id) {
-      toast.error("Failed to save item: no location selected");
+      toast.error("保存物品失败：未选择位置");
       return;
     }
 
@@ -76,11 +76,11 @@
     const { error } = await api.items.update(itemId.value, payload);
 
     if (error) {
-      toast.error("Failed to save item");
+      toast.error("保存物品失败");
       return;
     }
 
-    toast.success("Item saved");
+    toast.success("物品已保存");
     navigateTo("/item/" + itemId.value);
   }
   type NoUndefinedField<T> = { [P in keyof T]-?: NoUndefinedField<NonNullable<T[P]>> };
@@ -129,52 +129,52 @@
   const mainFields: FormField[] = [
     {
       type: "text",
-      label: "Name",
+      label: "名称",
       ref: "name",
     },
     {
       type: "number",
-      label: "Quantity",
+      label: "数量",
       ref: "quantity",
     },
     {
       type: "textarea",
-      label: "Description",
+      label: "描述",
       ref: "description",
     },
     {
       type: "text",
-      label: "Serial Number",
+      label: "序列号",
       ref: "serialNumber",
     },
     {
       type: "text",
-      label: "Model Number",
+      label: "型号",
       ref: "modelNumber",
     },
     {
       type: "text",
-      label: "Manufacturer",
+      label: "制造商",
       ref: "manufacturer",
     },
     {
       type: "textarea",
-      label: "Notes",
+      label: "备注",
       ref: "notes",
     },
     {
       type: "checkbox",
-      label: "Insured",
+      label: "已投保",
       ref: "insured",
     },
     {
       type: "checkbox",
-      label: "Archived",
+      label: "已归档",
       ref: "archived",
     },
     {
       type: "text",
-      label: "Asset ID",
+      label: "资产ID",
       ref: "assetId",
     },
   ];
@@ -182,17 +182,17 @@
   const purchaseFields: FormField[] = [
     {
       type: "text",
-      label: "Purchased From",
+      label: "购买来源",
       ref: "purchaseFrom",
     },
     {
       type: "text",
-      label: "Purchase Price",
+      label: "购买价格",
       ref: "purchasePrice",
     },
     {
       type: "date",
-      label: "Purchase Date",
+      label: "购买日期",
       // @ts-expect-error - we know this is a date
       ref: "purchaseTime",
     },
@@ -201,18 +201,18 @@
   const warrantyFields: FormField[] = [
     {
       type: "checkbox",
-      label: "Lifetime Warranty",
+      label: "终身保修",
       ref: "lifetimeWarranty",
     },
     {
       type: "date",
-      label: "Warranty Expires",
+      label: "保修到期",
       // @ts-expect-error - we know this is a date
       ref: "warrantyExpires",
     },
     {
       type: "textarea",
-      label: "Warranty Notes",
+      label: "保修备注",
       ref: "warrantyDetails",
     },
   ];
@@ -220,17 +220,17 @@
   const soldFields: FormField[] = [
     {
       type: "text",
-      label: "Sold To",
+      label: "售给",
       ref: "soldTo",
     },
     {
       type: "text",
-      label: "Sold Price",
+      label: "售价",
       ref: "soldPrice",
     },
     {
       type: "date",
-      label: "Sold At",
+      label: "售出时间",
       // @ts-expect-error - we know this is a date
       ref: "soldTime",
     },
@@ -277,11 +277,11 @@
     const { data, error } = await api.items.attachments.add(itemId.value, files[0], files[0].name, type);
 
     if (error) {
-      toast.error("Failed to upload attachment");
+      toast.error("上传附件失败");
       return;
     }
 
-    toast.success("Attachment uploaded");
+    toast.success("附件已上传");
 
     item.value.attachments = data.attachments;
   }
@@ -289,7 +289,7 @@
   const confirm = useConfirm();
 
   async function deleteAttachment(attachmentId: string) {
-    const confirmed = await confirm.open("Are you sure you want to delete this attachment?");
+    const confirmed = await confirm.open("您确定要删除此附件吗？");
 
     if (confirmed.isCanceled) {
       return;
@@ -302,7 +302,7 @@
       return;
     }
 
-    toast.success("Attachment deleted");
+    toast.success("附件已删除");
     item.value.attachments = item.value.attachments.filter(a => a.id !== attachmentId);
   }
 
@@ -342,7 +342,7 @@
     });
 
     if (error) {
-      toast.error("Failed to update attachment");
+      toast.error("更新附件失败");
       return;
     }
 
@@ -355,13 +355,13 @@
     editState.title = "";
     editState.type = "";
 
-    toast.success("Attachment updated");
+    toast.success("附件已更新");
   }
 
   function addField() {
     item.value.fields.push({
       id: null,
-      name: "Field Name",
+      name: "字段名称",
       type: "text",
       textValue: "",
       numberValue: 0,
@@ -374,7 +374,7 @@
   const parent = ref();
 
   async function deleteItem() {
-    const confirmed = await confirm.open("Are you sure you want to delete this item?");
+    const confirmed = await confirm.open("您确定要删除此物品吗？");
 
     if (!confirmed.data) {
       return;
@@ -382,10 +382,10 @@
 
     const { error } = await api.items.delete(itemId.value);
     if (error) {
-      toast.error("Failed to delete item");
+      toast.error("删除物品失败");
       return;
     }
-    toast.success("Item deleted");
+    toast.success("物品已删除");
     navigateTo("/home");
   }
 
@@ -415,12 +415,12 @@
 <template>
   <div v-if="item" class="pb-8">
     <BaseModal v-model="editState.modal">
-      <template #title> Attachment Edit </template>
+      <template #title> 编辑附件 </template>
 
-      <FormTextField v-model="editState.title" label="Attachment Title" />
+      <FormTextField v-model="editState.title" label="附件标题" />
       <FormSelect
         v-model:value="editState.type"
-        label="Attachment Type"
+        label="附件类型"
         value-key="value"
         name="text"
         :items="attachmentOpts"
@@ -428,52 +428,51 @@
       <div v-if="editState.type == 'photo'" class="flex gap-2 mt-3">
         <input v-model="editState.primary" type="checkbox" class="checkbox" />
         <p class="text-sm">
-          <span class="font-semibold">Primary Photo</span>
-          This options is only available for photos. Only one photo can be primary. If you select this option, the
-          current primary photo, if any will be unselected.
+          <span class="font-semibold">主要照片</span>
+          此选项仅适用于照片。只能有一张主要照片。如果您选择此选项，当前的主要照片（如果有）将被取消选择。
         </p>
       </div>
       <div class="modal-action">
-        <BaseButton :loading="editState.loading" @click="updateAttachment"> Update </BaseButton>
+        <BaseButton :loading="editState.loading" @click="updateAttachment"> 更新 </BaseButton>
       </div>
     </BaseModal>
 
     <section class="relative">
       <div class="my-4 justify-end flex gap-2 items-center sticky z-10 top-1">
-        <div class="mr-auto tooltip tooltip-right" data-tip="Show Advanced View Options">
+        <div class="mr-auto tooltip tooltip-right" data-tip="显示高级视图选项">
           <label class="label cursor-pointer mr-auto">
             <input v-model="preferences.editorAdvancedView" type="checkbox" class="toggle toggle-primary" />
-            <span class="label-text ml-4"> Advanced </span>
+            <span class="label-text ml-4"> 高级 </span>
           </label>
         </div>
         <BaseButton size="sm" @click="saveItem">
           <template #icon>
             <MdiContentSaveOutline />
           </template>
-          Save
+          保存
         </BaseButton>
         <BaseButton class="btn btn-sm btn-error" @click="deleteItem()">
           <MdiDelete class="mr-2" />
-          Delete
+          删除
         </BaseButton>
       </div>
       <div v-if="!requestPending" class="space-y-6">
         <BaseCard class="overflow-visible">
-          <template #title> Edit Details </template>
+          <template #title> 编辑详情 </template>
           <template #title-actions>
             <div class="flex flex-wrap justify-between items-center mt-2 gap-4"></div>
           </template>
           <div class="px-5 pt-2 border-t mb-6 grid md:grid-cols-2 gap-4">
             <LocationSelector v-model="item.location" />
-            <FormMultiselect v-model="item.labels" label="Labels" :items="labels ?? []" />
+            <FormMultiselect v-model="item.labels" label="标签" :items="labels ?? []" />
             <Autocomplete
               v-if="preferences.editorAdvancedView"
               v-model="parent"
               v-model:search="query"
               :items="results"
               item-text="name"
-              label="Parent Item"
-              no-results-text="Type to search..."
+              label="父级物品"
+              no-results-text="输入以搜索..."
             />
           </div>
 
@@ -512,7 +511,7 @@
         </BaseCard>
 
         <BaseCard>
-          <template #title> Custom Fields </template>
+          <template #title> 自定义字段 </template>
           <div class="px-5 border-t divide-y divide-gray-300 space-y-4">
             <div
               v-for="(field, idx) in item.fields"
@@ -520,10 +519,10 @@
               class="grid grid-cols-2 md:grid-cols-4 gap-2"
             >
               <!-- <FormSelect v-model:value="field.type" label="Field Type" :items="fieldTypes" value-key="value" /> -->
-              <FormTextField v-model="field.name" label="Name" />
+              <FormTextField v-model="field.name" label="名称" />
               <div class="flex items-end col-span-3">
-                <FormTextField v-model="field.textValue" label="Value" />
-                <div class="tooltip" data-tip="Delete">
+                <FormTextField v-model="field.textValue" label="值" />
+                <div class="tooltip" data-tip="删除">
                   <button class="btn btn-sm btn-square mb-2 ml-2" @click="item.fields.splice(idx, 1)">
                     <MdiDelete />
                   </button>
@@ -532,7 +531,7 @@
             </div>
           </div>
           <div class="px-5 pb-4 mt-4 flex justify-end">
-            <BaseButton size="sm" @click="addField"> Add </BaseButton>
+            <BaseButton size="sm" @click="addField"> 添加 </BaseButton>
           </div>
         </BaseCard>
 
@@ -542,16 +541,16 @@
           class="overflow-visible card bg-base-100 shadow-xl sm:rounded-lg"
         >
           <div class="px-4 py-5 sm:px-6">
-            <h3 class="text-lg font-medium leading-6">Attachments</h3>
-            <p class="text-xs">Changes to attachments will be saved immediately</p>
+            <h3 class="text-lg font-medium leading-6">附件</h3>
+            <p class="text-xs">对附件的更改将立即保存</p>
           </div>
           <div class="border-t border-gray-300 p-4">
             <div v-if="attDropZoneActive" class="grid grid-cols-4 gap-4">
-              <DropZone @drop="dropPhoto"> Photo </DropZone>
-              <DropZone @drop="dropWarranty"> Warranty </DropZone>
-              <DropZone @drop="dropManual"> Manual </DropZone>
-              <DropZone @drop="dropAttachment"> Attachment </DropZone>
-              <DropZone @drop="dropReceipt"> Receipt </DropZone>
+              <DropZone @drop="dropPhoto"> 照片 </DropZone>
+              <DropZone @drop="dropWarranty"> 保修 </DropZone>
+              <DropZone @drop="dropManual"> 手册 </DropZone>
+              <DropZone @drop="dropAttachment"> 附件 </DropZone>
+              <DropZone @drop="dropReceipt"> 收据 </DropZone>
             </div>
             <button
               v-else
@@ -559,7 +558,7 @@
               @click="clickUpload"
             >
               <input ref="refAttachmentInput" hidden type="file" @change="uploadImage" />
-              <p>Drag and drop files here or click to select files</p>
+              <p>将文件拖放到此处或点击选择文件</p>
             </button>
           </div>
 
@@ -577,12 +576,12 @@
                   {{ capitalize(attachment.type) }}
                 </p>
                 <div class="flex gap-2 justify-end">
-                  <div class="tooltip" data-tip="Delete">
+                  <div class="tooltip" data-tip="删除">
                     <button class="btn btn-sm btn-square" @click="deleteAttachment(attachment.id)">
                       <MdiDelete />
                     </button>
                   </div>
-                  <div class="tooltip" data-tip="Edit">
+                  <div class="tooltip" data-tip="编辑">
                     <button class="btn btn-sm btn-square" @click="openAttachmentEditDialog(attachment)">
                       <MdiPencil />
                     </button>
@@ -595,7 +594,7 @@
 
         <div v-if="preferences.editorAdvancedView" class="overflow-visible card bg-base-100 shadow-xl sm:rounded-lg">
           <div class="px-4 py-5 sm:px-6">
-            <h3 class="text-lg font-medium leading-6">Purchase Details</h3>
+            <h3 class="text-lg font-medium leading-6">购买详情</h3>
           </div>
           <div class="border-t border-gray-300 sm:p-0">
             <div
@@ -637,7 +636,7 @@
 
         <div v-if="preferences.editorAdvancedView" class="overflow-visible card bg-base-100 shadow-xl sm:rounded-lg">
           <div class="px-4 py-5 sm:px-6">
-            <h3 class="text-lg font-medium leading-6">Warranty Details</h3>
+            <h3 class="text-lg font-medium leading-6">保修详情</h3>
           </div>
           <div class="border-t border-gray-300 sm:p-0">
             <div
@@ -679,7 +678,7 @@
 
         <div v-if="preferences.editorAdvancedView" class="overflow-visible card bg-base-100 shadow-xl sm:rounded-lg">
           <div class="px-4 py-5 sm:px-6">
-            <h3 class="text-lg font-medium leading-6">Sold Details</h3>
+            <h3 class="text-lg font-medium leading-6">销售详情</h3>
           </div>
           <div class="border-t border-gray-300 sm:p-0">
             <div v-for="field in soldFields" :key="field.ref" class="sm:divide-y sm:divide-gray-300 grid grid-cols-1">

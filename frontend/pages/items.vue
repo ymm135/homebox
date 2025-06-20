@@ -13,7 +13,7 @@
   });
 
   useHead({
-    title: "Homebox | Items",
+    title: "Homebox | 物品",
   });
 
   const searchLocked = ref(false);
@@ -317,9 +317,9 @@
     <div v-if="locations && labels">
       <div class="flex flex-wrap md:flex-nowrap gap-4 items-end">
         <div class="w-full">
-          <FormTextField v-model="query" placeholder="Search" />
+          <FormTextField v-model="query" placeholder="搜索" />
           <div v-if="byAssetId" class="text-sm pl-2 pt-2">
-            <p>Querying Asset ID Number: {{ parsedAssetId }}</p>
+            <p>查询资产ID号码: {{ parsedAssetId }}</p>
           </div>
         </div>
         <BaseButton class="btn-block md:w-auto" @click.prevent="submit">
@@ -327,12 +327,12 @@
             <MdiLoading v-if="loading" class="animate-spin" />
             <MdiMagnify v-else />
           </template>
-          Search
+          搜索
         </BaseButton>
       </div>
 
       <div class="flex flex-wrap md:flex-nowrap gap-2 w-full py-2">
-        <SearchFilter v-model="selectedLocations" label="Locations" :options="locationFlatTree">
+        <SearchFilter v-model="selectedLocations" label="位置" :options="locationFlatTree">
           <template #display="{ item }">
             <div>
               <div class="flex w-full">
@@ -344,52 +344,50 @@
             </div>
           </template>
         </SearchFilter>
-        <SearchFilter v-model="selectedLabels" label="Labels" :options="labels" />
+        <SearchFilter v-model="selectedLabels" label="标签" :options="labels" />
         <div class="dropdown">
-          <label tabindex="0" class="btn btn-xs">Options</label>
+          <label tabindex="0" class="btn btn-xs">选项</label>
           <div
             tabindex="0"
             class="dropdown-content mt-1 max-h-72 p-4 w-64 overflow-auto shadow bg-base-100 rounded-md -translate-x-24"
           >
             <label class="label cursor-pointer mr-auto">
               <input v-model="includeArchived" type="checkbox" class="toggle toggle-sm toggle-primary" />
-              <span class="label-text ml-4"> Include Archived Items </span>
+              <span class="label-text ml-4"> 包含已归档物品 </span>
             </label>
             <label class="label cursor-pointer mr-auto">
               <input v-model="fieldSelector" type="checkbox" class="toggle toggle-sm toggle-primary" />
-              <span class="label-text ml-4"> Field Selector </span>
+              <span class="label-text ml-4"> 字段选择器 </span>
             </label>
             <hr class="my-2" />
-            <BaseButton class="btn-block btn-sm" @click="reset"> Reset Search</BaseButton>
+            <BaseButton class="btn-block btn-sm" @click="reset"> 重置搜索</BaseButton>
           </div>
         </div>
         <div class="dropdown ml-auto dropdown-end">
-          <label tabindex="0" class="btn btn-xs">Tips</label>
+          <label tabindex="0" class="btn btn-xs">提示</label>
           <div
             tabindex="0"
             class="dropdown-content mt-1 p-4 w-[325px] text-sm overflow-auto shadow bg-base-100 rounded-md"
           >
-            <p class="text-base">Search Tips</p>
+            <p class="text-base">搜索提示</p>
             <ul class="mt-1 list-disc pl-6">
               <li>
-                Location and label filters use the 'OR' operation. If more than one is selected only one will be
-                required for a match.
+                位置和标签过滤器使用'或'操作。如果选择了多个，只需要匹配其中一个即可。
               </li>
-              <li>Searches prefixed with '#'' will query for a asset ID (example '#000-001')</li>
+              <li>以'#'开头的搜索将查询资产ID（例如'#000-001'）</li>
               <li>
-                Field filters use the 'OR' operation. If more than one is selected only one will be required for a
-                match.
+                字段过滤器使用'或'操作。如果选择了多个，只需要匹配其中一个即可。
               </li>
             </ul>
           </div>
         </div>
       </div>
       <div v-if="fieldSelector" class="py-4 space-y-2">
-        <p>Custom Fields</p>
+        <p>自定义字段</p>
         <div v-for="(f, idx) in fieldTuples" :key="idx" class="flex flex-wrap gap-2">
           <div class="form-control w-full max-w-xs">
             <label class="label">
-              <span class="label-text">Field</span>
+              <span class="label-text">字段</span>
             </label>
             <select
               v-model="fieldTuples[idx][0]"
@@ -402,7 +400,7 @@
           </div>
           <div class="form-control w-full max-w-xs">
             <label class="label">
-              <span class="label-text">Field Value</span>
+              <span class="label-text">字段值</span>
             </label>
             <select v-model="fieldTuples[idx][1]" class="select-bordered select" :items="fieldValuesCache[f[0]]">
               <option v-for="v in fieldValuesCache[f[0]]" :key="v" :value="v">{{ v }}</option>
@@ -416,38 +414,38 @@
             <MdiDelete class="w-5 h-5" />
           </button>
         </div>
-        <BaseButton type="button" class="btn-sm mt-2" @click="() => fieldTuples.push(['', ''])"> Add</BaseButton>
+        <BaseButton type="button" class="btn-sm mt-2" @click="() => fieldTuples.push(['', ''])"> 添加</BaseButton>
       </div>
     </div>
 
     <section class="mt-10">
-      <BaseSectionHeader ref="itemsTitle"> Items </BaseSectionHeader>
+      <BaseSectionHeader ref="itemsTitle"> 物品 </BaseSectionHeader>
       <p class="text-base font-medium flex items-center">
-        {{ total }} Results
-        <span class="text-base ml-auto"> Page {{ page }} of {{ totalPages }}</span>
+        {{ total }} 个结果
+        <span class="text-base ml-auto"> 第 {{ page }} 页，共 {{ totalPages }} 页</span>
       </p>
 
       <div ref="cardgrid" class="grid mt-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         <ItemCard v-for="item in items" :key="item.id" :item="item" />
 
-        <div class="hidden first:inline text-xl">No Items Found</div>
+        <div class="hidden first:inline text-xl">未找到物品</div>
       </div>
       <div v-if="items.length > 0 && (hasNext || hasPrev)" class="mt-10 flex gap-2 flex-col items-center">
         <div class="flex">
           <div class="btn-group">
             <button :disabled="!hasPrev" class="btn text-no-transform" @click="prev">
               <MdiChevronLeft class="mr-1 h-6 w-6" name="mdi-chevron-left" />
-              Prev
+              上一页
             </button>
-            <button v-if="hasPrev" class="btn text-no-transform" @click="page = 1">First</button>
-            <button v-if="hasNext" class="btn text-no-transform" @click="page = totalPages">Last</button>
+            <button v-if="hasPrev" class="btn text-no-transform" @click="page = 1">首页</button>
+            <button v-if="hasNext" class="btn text-no-transform" @click="page = totalPages">末页</button>
             <button :disabled="!hasNext" class="btn text-no-transform" @click="next">
-              Next
+              下一页
               <MdiChevronRight class="ml-1 h-6 w-6" name="mdi-chevron-right" />
             </button>
           </div>
         </div>
-        <p class="text-sm font-bold">Page {{ page }} of {{ totalPages }}</p>
+        <p class="text-sm font-bold">第 {{ page }} 页，共 {{ totalPages }} 页</p>
       </div>
     </section>
   </BaseContainer>

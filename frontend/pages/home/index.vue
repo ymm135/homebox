@@ -8,7 +8,7 @@
     middleware: ["auth"],
   });
   useHead({
-    title: "Homebox | Home",
+    title: "Homebox | 首页",
   });
 
   const api = useUserApi();
@@ -28,14 +28,14 @@
   <div>
     <BaseContainer class="flex flex-col gap-12 pb-16">
       <section>
-        <Subtitle> Quick Statistics </Subtitle>
+        <Subtitle> 快速统计 </Subtitle>
         <div class="grid grid-cols-2 gap-2 md:grid-cols-4 md:gap-6">
           <StatCard v-for="(stat, i) in stats" :key="i" :title="stat.label" :value="stat.value" :type="stat.type" />
         </div>
       </section>
 
       <section>
-        <Subtitle> Recently Added </Subtitle>
+        <Subtitle> 最近添加 </Subtitle>
 
         <BaseCard v-if="breakpoints.lg">
           <ItemViewTable :items="itemTable.items" />
@@ -46,14 +46,14 @@
       </section>
 
       <section>
-        <Subtitle> Storage Locations </Subtitle>
+        <Subtitle> 存储位置 </Subtitle>
         <div class="grid grid-cols-1 sm:grid-cols-2 card md:grid-cols-3 gap-4">
           <LocationCard v-for="location in locations" :key="location.id" :location="location" />
         </div>
       </section>
 
       <section>
-        <Subtitle> Labels </Subtitle>
+        <Subtitle> 标签 </Subtitle>
         <div class="flex gap-4 flex-wrap">
           <LabelChip v-for="label in labels" :key="label.id" size="lg" :label="label" class="shadow-md" />
         </div>

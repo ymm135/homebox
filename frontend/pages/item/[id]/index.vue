@@ -26,7 +26,7 @@
   const { data: item, refresh } = useAsyncData(itemId.value, async () => {
     const { data, error } = await api.items.get(itemId.value);
     if (error) {
-      toast.error("Failed to load item");
+      toast.error("加载物品失败");
       navigateTo("/home");
       return;
     }
@@ -52,7 +52,7 @@
 
     const newQuantity = item.value.quantity + amount;
     if (newQuantity < 0) {
-      toast.error("Quantity cannot be negative");
+      toast.error("数量不能为负数");
       return;
     }
 
@@ -62,7 +62,7 @@
     });
 
     if (resp.error) {
-      toast.error("Failed to adjust quantity");
+      toast.error("调整数量失败");
       return;
     }
 
@@ -140,7 +140,7 @@
 
     return [
       {
-        name: "Asset ID",
+        name: "资产编号",
         text: item.value?.assetId,
       },
     ];
@@ -153,31 +153,31 @@
 
     const ret: Details = [
       {
-        name: "Quantity",
+        name: "数量",
         text: item.value?.quantity,
         slot: "quantity",
       },
       {
-        name: "Serial Number",
+        name: "序列号",
         text: item.value?.serialNumber,
         copyable: true,
       },
       {
-        name: "Model Number",
+        name: "型号",
         text: item.value?.modelNumber,
         copyable: true,
       },
       {
-        name: "Manufacturer",
+        name: "制造商",
         text: item.value?.manufacturer,
         copyable: true,
       },
       {
-        name: "Insured",
-        text: item.value?.insured ? "Yes" : "No",
+        name: "已投保",
+        text: item.value?.insured ? "是" : "否",
       },
       {
-        name: "Notes",
+        name: "备注",
         type: "markdown",
         text: item.value?.notes,
       },
@@ -235,19 +235,19 @@
     };
 
     if (attachments.value.attachments.length > 0) {
-      push("Attachments");
+      push("附件");
     }
 
     if (attachments.value.warranty.length > 0) {
-      push("Warranty");
+      push("保修");
     }
 
     if (attachments.value.manuals.length > 0) {
-      push("Manuals");
+      push("手册");
     }
 
     if (attachments.value.receipts.length > 0) {
-      push("Receipts");
+      push("收据");
     }
 
     return details;
@@ -263,15 +263,15 @@
   const warrantyDetails = computed(() => {
     const details: Details = [
       {
-        name: "Lifetime Warranty",
-        text: item.value?.lifetimeWarranty ? "Yes" : "No",
+        name: "终身保修",
+        text: item.value?.lifetimeWarranty ? "是" : "否",
       },
     ];
 
     if (item.value?.lifetimeWarranty) {
       details.push({
-        name: "Warranty Expires",
-        text: "N/A",
+        name: "保修到期",
+        text: "不适用",
       });
     } else {
       details.push({
@@ -283,7 +283,7 @@
     }
 
     details.push({
-      name: "Warranty Details",
+      name: "保修详情",
       type: "markdown",
       text: item.value?.warrantyDetails || "",
     });
@@ -305,16 +305,16 @@
   const purchaseDetails = computed<Details>(() => {
     const v: Details = [
       {
-        name: "Purchased From",
+        name: "购买来源",
         text: item.value?.purchaseFrom || "",
       },
       {
-        name: "Purchase Price",
+        name: "购买价格",
         text: item.value?.purchasePrice || "",
         type: "currency",
       },
       {
-        name: "Purchase Date",
+        name: "购买日期",
         text: item.value?.purchaseTime || "",
         type: "date",
         date: true,
@@ -338,16 +338,16 @@
   const soldDetails = computed<Details>(() => {
     const v: Details = [
       {
-        name: "Sold To",
+        name: "售给",
         text: item.value?.soldTo || "",
       },
       {
-        name: "Sold Price",
+        name: "售价",
         text: item.value?.soldPrice || "",
         type: "currency",
       },
       {
-        name: "Sold At",
+        name: "售出日期",
         text: item.value?.soldTime || "",
         type: "date",
         date: true,
@@ -390,17 +390,17 @@
     return [
       {
         id: "details",
-        name: "Details",
+        name: "详情",
         to: `/item/${itemId.value}`,
       },
       {
         id: "log",
-        name: "Maintenance",
+        name: "维护",
         to: `/item/${itemId.value}/maintenance`,
       },
       {
         id: "edit",
-        name: "Edit",
+        name: "编辑",
         to: `/item/${itemId.value}/edit`,
       },
     ];
@@ -413,7 +413,7 @@
 
     const resp = await api.items.fullpath(item.value.id);
     if (resp.error) {
-      toast.error("Failed to load item");
+      toast.error("加载物品失败");
       return [];
     }
 
@@ -430,7 +430,7 @@
     });
 
     if (resp.error) {
-      toast.error("Failed to load items");
+      toast.error("加载物品失败");
       return [];
     }
 
@@ -478,12 +478,12 @@
               </h1>
               <div class="flex gap-1 flex-wrap text-xs">
                 <div>
-                  Created
+                  创建于
                   <DateTime :date="item?.createdAt" />
                 </div>
                 -
                 <div>
-                  Updated
+                  更新于
                   <DateTime :date="item?.updatedAt" />
                 </div>
               </div>
@@ -514,12 +514,12 @@
     <section>
       <div class="space-y-6">
         <BaseCard v-if="!hasNested" collapsable>
-          <template #title> Details </template>
+          <template #title> 详情 </template>
           <template #title-actions>
             <div class="flex flex-wrap justify-between items-center mt-2 gap-4">
               <label class="label cursor-pointer">
                 <input v-model="preferences.showEmpty" type="checkbox" class="toggle toggle-primary" />
-                <span class="label-text ml-4"> Show Empty </span>
+                <span class="label-text ml-4"> 显示空值 </span>
               </label>
               <PageQRCode />
             </div>
@@ -544,7 +544,7 @@
         <NuxtPage :item="item" :page-key="itemId" />
         <template v-if="!hasNested">
           <BaseCard v-if="photos && photos.length > 0">
-            <template #title> Photos </template>
+            <template #title> 照片 </template>
             <div
               class="container border-t border-gray-300 p-4 flex flex-wrap gap-2 mx-auto max-h-[500px] overflow-y-scroll scroll-bg"
             >
@@ -555,7 +555,7 @@
           </BaseCard>
 
           <BaseCard v-if="showAttachments" collapsable>
-            <template #title> Attachments </template>
+            <template #title> 附件 </template>
             <DetailsSection v-if="attachmentDetails.length > 0" :details="attachmentDetails">
               <template #manuals>
                 <ItemAttachmentsList
@@ -587,22 +587,22 @@
               </template>
             </DetailsSection>
             <div v-else>
-              <p class="text-base-content/70 px-6 pb-4">No attachments found</p>
+              <p class="text-base-content/70 px-6 pb-4">未找到附件</p>
             </div>
           </BaseCard>
 
           <BaseCard v-if="showPurchase" collapsable>
-            <template #title> Purchase Details </template>
+            <template #title> 购买详情 </template>
             <DetailsSection :details="purchaseDetails" />
           </BaseCard>
 
           <BaseCard v-if="showWarranty" collapsable>
-            <template #title> Warranty Details </template>
+            <template #title> 保修详情 </template>
             <DetailsSection :details="warrantyDetails" />
           </BaseCard>
 
           <BaseCard v-if="showSold" collapsable>
-            <template #title> Sold Details </template>
+            <template #title> 销售详情 </template>
             <DetailsSection :details="soldDetails" />
           </BaseCard>
         </template>
