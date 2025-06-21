@@ -80,4 +80,16 @@
     font-size: 0.75rem;
     font-weight: 700;
   }
+
+  /* Bold text */
+  .markdown :where(strong, b) {
+    font-weight: 700;
+  }
+
+  /* Highlight text */
+  .markdown :where(mark) {
+    background-color: #fef08a;
+    padding: 0.125rem 0.25rem;
+    border-radius: 0.25rem;
+  }
 </style>

@@ -5,7 +5,7 @@
       <div class="absolute bottom-1 left-1">
         <NuxtLink
           v-if="item.location"
-          class="text-sm hover:link badge shadow-md rounded-md"
+          class="text-sm hover:link badge shadow-md rounded-md text-white"
           :to="`/location/${item.location.id}`"
         >
           {{ item.location.name }}
@@ -51,7 +51,7 @@
     return props.item.labels.slice(0, 3) || [];
   });
 
-  const props = defineProps({
+  const props =defineProps({
     item: {
       type: Object as () => ItemOut | ItemSummary,
       required: true,
