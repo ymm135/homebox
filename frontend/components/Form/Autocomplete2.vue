@@ -153,14 +153,25 @@
 
   const computedItems = computed<ComboItem[]>(() => {
     const list: ComboItem[] = [];
+    
+    // 如果搜索为空，显示所有项目
+    if (!search.value.trim()) {
+      for (let i = 0; i < props.items.length; i++) {
+        const item = props.items[i];
+        const display = extractDisplay(item);
+        list.push({ id: i, display, value: item });
+      }
+      return list;
+    }
 
-    const matches = index.value.search("*" + search.value + "*");
-
-    for (let i = 0; i < matches.length; i++) {
-      const match = matches[i];
-      const item = props.items[parseInt(match.ref)];
+    // 对于有搜索内容的情况，使用简单的字符串匹配来支持中文
+    const searchTerm = search.value.toLowerCase();
+    for (let i = 0; i < props.items.length; i++) {
+      const item = props.items[i];
       const display = extractDisplay(item);
-      list.push({ id: i, display, value: item });
+      if (display.toLowerCase().includes(searchTerm)) {
+        list.push({ id: i, display, value: item });
+      }
     }
 
     return list;
