@@ -15,22 +15,22 @@ export function statCardData(api: UserClient) {
   return computed(() => {
     return [
       {
-        label: "Total Value",
+        label: "总价值",
         value: statistics.value?.totalItemPrice || 0,
         type: "currency",
       },
       {
-        label: "Total Items",
+        label: "物品总数",
         value: statistics.value?.totalItems || 0,
         type: "number",
       },
       {
-        label: "Total Locations",
+        label: "位置总数",
         value: statistics.value?.totalLocations || 0,
         type: "number",
       },
       {
-        label: "Total Labels",
+        label: "标签总数",
         value: statistics.value?.totalLabels || 0,
         type: "number",
       },

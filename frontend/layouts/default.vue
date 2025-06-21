@@ -53,7 +53,7 @@
                     <span>
                       <MdiPlus class="mr-1 -ml-1" />
                     </span>
-                    Create
+                    创建
                   </label>
                   <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-40">
                     <li v-for="btn in dropdown" :key="btn.name">
@@ -116,19 +116,19 @@
 
   const dropdown = [
     {
-      name: "Item / Asset",
+      name: "物品",
       action: () => {
         modals.item = true;
       },
     },
     {
-      name: "Location",
+      name: "位置",
       action: () => {
         modals.location = true;
       },
     },
     {
-      name: "Label",
+      name: "标签",
       action: () => {
         modals.label = true;
       },
@@ -149,35 +149,35 @@
       icon: MdiHome,
       active: computed(() => route.path === "/home"),
       id: 0,
-      name: "Home",
+      name: "首页",
       to: "/home",
     },
     {
       icon: MdiFileTree,
       id: 4,
       active: computed(() => route.path === "/locations"),
-      name: "Locations",
+      name: "位置",
       to: "/locations",
     },
     {
       icon: MdiMagnify,
       id: 3,
       active: computed(() => route.path === "/items"),
-      name: "Search",
+      name: "搜索",
       to: "/items",
     },
     {
       icon: MdiAccount,
       id: 1,
       active: computed(() => route.path === "/profile"),
-      name: "Profile",
+      name: "用户",
       to: "/profile",
     },
     {
       icon: MdiCog,
       id: 6,
       active: computed(() => route.path === "/tools"),
-      name: "Tools",
+      name: "工具",
       to: "/tools",
     },
   ];

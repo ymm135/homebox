@@ -3,6 +3,15 @@ import { defineNuxtConfig } from "nuxt/config";
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
   ssr: false,
+  sourcemap: {
+    server: true,
+    client: true
+  },
+  vite: {
+    build: {
+      sourcemap: true
+    }
+  },
   modules: [
     "@nuxtjs/tailwindcss",
     "@pinia/nuxt",
