@@ -32,6 +32,12 @@
     --y-gap: 0.65rem;
   }
 
+  .markdown {
+    word-break: break-word;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
   .markdown > :first-child {
     margin-top: 0px !important;
   }
@@ -91,5 +97,11 @@
     background-color: #fef08a;
     padding: 0.125rem 0.25rem;
     border-radius: 0.25rem;
+  }
+
+  .markdown :where(code, pre) {
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-wrap: break-word;
   }
 </style>
